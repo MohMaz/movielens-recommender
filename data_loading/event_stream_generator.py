@@ -19,6 +19,8 @@ assert sys.version_info >= (3, 5)  # make sure we have Python 3.5+
 input_dir = 'dataset/ml-latest-small'
 keyspace = 'movielens_small'
 
+
+
 movies_file_path = input_dir + '/ratings.csv'
 df_rating = spark.read.format("csv").option("header", "true").load(movies_file_path)
 df_rating = df_rating.withColumnRenamed("userId", "user_id")
@@ -53,8 +55,10 @@ all_data_sorted.selectExpr("CAST(key AS STRING)", "CAST(value_json AS STRING) as
     .write \
     .format("kafka") \
     .option("kafka.bootstrap.servers", kafka_server) \
-    .option("topic", "4") \
+    .option("topic", kafka_topic) \
     .save()
 
 # kafka-console-consumer --bootstrap-server 199.60.17.212:9092 --topic tag_rate_small --from-beginning
 # {"user_id":"514","movie_id":"5247","value":"2.5","timestamp":"2018-09-23 19:44:00","event_type":"rate"}
+#spark-submit --packages datastax:spark-cassandra-connector:2.3.1-s_2.11,org.apache.spark:spark-sql-kafka-0-10_2.11:2.4.0 data_loading/event_stream_generator.py
+
