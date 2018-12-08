@@ -1,0 +1,15 @@
+---
+version: '2'
+services:
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.5.2
+    container_name: logstash
+    restart: always
+    network_mode: host
+    environment:
+      - LOG_LEVEL=info
+      - XPACK_MONITORING_ELASTICSEARCH_URL=http://199.60.17.212:9200
+    volumes:
+      - ${PWD}/logstash-pipelines/:/usr/share/logstash/pipeline/
+      - ${PWD}/logstash-pipelines.yml/:/usr/share/logstash/config/pipelines.yml
+

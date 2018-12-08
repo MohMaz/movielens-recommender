@@ -1,0 +1,4 @@
+- pipeline.id: predictions
+  path.config: "/usr/share/logstash/pipeline/predictions.conf"
+  pipeline.workers: 2
+
